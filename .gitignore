@@ -1,6 +1,7 @@
 venv
 db.sqlite3
 /.idea/
+/media/
 ### Windows template
 # Windows thumbnail cache files
 Thumbs.db

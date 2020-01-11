@@ -25,6 +25,35 @@
 
     <div class="row justify-content-center">
         <h4>Comments</h4>
+        <hr/>
+        <br/>
+        {% if user.is_authenticated %}
+        <form action="{% url 'comment_create' business.id %}" method="post" class="form-inline">
+          {% csrf_token %}
+          <!--{{ form.as_p }}-->
+          <div class="form-group mx-2">
+            <input class="form-control" type="text" name="text" required="" id="id_text" maxlength="1024">
+          </div>
+          <input class="btn btn-secondary" type="submit" value="Comment" />
+        </form>
+
+        {% endif %}
+        {% for comment in comments %}
+            <div class="container-md">
+
+            </div>
+            <div class="row">
+
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    {{ comment.text}}
+                </div>
+                <div class="card-footer">
+                    By: {{ comment.user.email }}
+                </div>
+            </div>
+        {% endfor %}
     </div>
 </div>
 

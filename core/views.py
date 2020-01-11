@@ -30,13 +30,38 @@ def index(request):
                    'cities_list': cities_list,
                    'countries_list': countries_list, 'filt1': filt1, 'filt2': filt2})
 
+
 class BusinessView(DetailView):
     template_name = 'business_profile.html'
     context_object_name = 'business'
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        business = Business.objects.get(id=self.kwargs['pk'])
+        data['comments'] = business.comments.all()
+        print(data['comments'])
+        return data
+
+
     def get_object(self):
         business = Business.objects.get(id=self.kwargs['pk'])
         return business
+
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['text']
+
+
+    def form_valid(self, form):
+        business = Business.objects.get(id=self.kwargs['pk'])
+        Comment.objects.create(
+            user=self.request.user,
+            business=business,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("business_detail",
+                                     kwargs={"pk": self.kwargs['pk']}))
 
 
 class RegisterView(CreateView):

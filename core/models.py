@@ -45,7 +45,7 @@ class Review(models.Model):
 
 
 class Comment(models.Model):
-    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='businesses')
+    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='comments')
     text = models.CharField(max_length=1024)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
     created_at = models.DateTimeField(auto_now_add=True)
