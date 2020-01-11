@@ -31,13 +31,13 @@
              </select>
          </form>
     {% for business in business_list %}
-      <div class="col-sm-6 p-3">
+      <div class="col-sm-4 p-3">
         <div class="card">
-            <div class="card-header">
+            <a href="{% url 'business_view' business.id %}"><div class="card-header bg-success text-white">
                 {{  business.name }}
-            </div>
+            </div></a>
             <div class="card-body">
-                <img class="img-thumbnail" src="{{ business.image.url }}" alt="Business image"></img>
+                <a href="{% url 'business_view' business.id %}"><img class="img-thumbnail" src="{{ business.image.url }}" alt="Business image"></img>   </a>
             </div>
             <div class="card-footer">
 
