@@ -14,9 +14,21 @@ from core.models import Business, Country, City, Comment, User, Review, MyUser
 
 
 def index(request):
+    countries_list = Country.objects.all()
+    cities_list = City.objects.all()
     business_list = Business.objects.all()
-    return render(request, 'index.html', {'business_list': business_list})
-
+    filt1 = request.GET.get('countries')
+    if filt1:
+        filt1 = int(filt1)
+        cities_list = cities_list.filter(country__pk=filt1)
+    filt2 = request.GET.get('cities')
+    if filt2:
+        filt2 = int(filt2)
+        business_list = business_list.filter(city__pk=filt2)
+    return render(request, 'index.html',
+                  {'business_list': business_list,
+                   'cities_list': cities_list,
+                   'countries_list': countries_list, 'filt1': filt1, 'filt2': filt2})
 
 class BusinessView(DetailView):
     template_name = 'business_profile.html'
@@ -38,6 +50,7 @@ class RegisterView(CreateView):
                                           password=data['password'])
         return redirect('home')
 
+
 class LoginView(TemplateView):
     template_name = 'login.html'
 
@@ -55,6 +68,7 @@ class LoginView(TemplateView):
             return redirect(reverse_lazy('home'))
         else:
             return render(request, "login.html", {"form": form})
+
 
 class LogoutView(LoginRequiredMixin, View):
 
