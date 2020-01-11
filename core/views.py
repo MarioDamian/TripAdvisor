@@ -43,7 +43,10 @@ class BusinessView(DetailView):
         rate = 0
         for review in reviews_list:
             rate = rate + review.rating
-        rate = float(rate / len(reviews_list))
+        try:
+            rate = float(rate / len(reviews_list))
+        except ZeroDivisionError:
+            print('You have 0 reviews!')
         data['rate'] = rate
         return data
 
@@ -88,7 +91,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         data = form.cleaned_data
         user = MyUser.objects.create_user(username=data['username'],
-                                          password=data['password'])
+                                          password=data['password1'])
         return redirect('home')
 
 
