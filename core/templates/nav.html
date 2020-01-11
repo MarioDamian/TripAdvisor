@@ -1,23 +1,23 @@
 
 <ul class="nav navbar-dark bg-dark">
-  <li class="nav-item">
+  <li class="nav-item col">
     <a class="nav-link active text-white" href="{% url 'home' %}">LifeTrips</a>
   </li>
 
   {% if user.is_authenticated %}
     {% if user.is_superuser %}
-    <li class="nav-item bg-warning justify-content-end">
+    <li class="nav-item bg-warning col">
       <a class="nav-link active text-white" href="{% url 'admin:index' %}">Admin</a>
     </li>
     {% endif %}
-    <li class="nav-item bg-danger justify-content-end">
+    <li class="nav-item bg-danger col">
       <a class="nav-link active text-white" href="{% url 'logout' %}">Logout</a>
     </li>
   {% else %}
-    <li class="nav-item bg-dark justify-content-end">
+    <li class="nav-item bg-info col">
       <a class="nav-link active text-white" href="{% url 'login' %}">Login</a>
     </li>
-    <li class="nav-item bg-dark justify-content-end">
+    <li class="nav-item bg-danger col">
       <a class="nav-link active text-white" href="{% url 'register' %}">Register</a>
     </li>
 

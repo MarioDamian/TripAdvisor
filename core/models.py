@@ -1,3 +1,4 @@
+from django.core.validators import MaxValueValidator
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -42,6 +43,7 @@ class Business(models.Model):
 class Review(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
+    rating = models.PositiveIntegerField()
 
 
 class Comment(models.Model):
