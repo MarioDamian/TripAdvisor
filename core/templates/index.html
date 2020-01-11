@@ -8,7 +8,7 @@
 
      <div class="row container">
          <form action="#" method="GET">
-            <select name="countries" onchange="this.form.submit()">
+            <select name="countries" onchange="this.form.submit()" class="bg-primary text-white">
                 <option value=""></option>
                 {% for country in countries_list %}
                 {% if country.pk == filt1 %}
@@ -19,7 +19,7 @@
                 {% endfor %}
             </select>
 
-             <select name="cities" onchange="this.form.submit()">
+             <select name="cities" onchange="this.form.submit()" class="bg-info text-white">
                  <option value=""></option>
                  {% for city in cities_list %}
                  {% if city.pk == filt2 %}
