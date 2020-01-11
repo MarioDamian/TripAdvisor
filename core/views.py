@@ -84,6 +84,15 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
                                      kwargs={"pk": self.kwargs['pk']}))
 
 
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name = 'confirm.html'
+
+    def get_success_url(self):
+        return reverse_lazy("business_detail",
+                                     kwargs={"pk": self.kwargs['pk']})
+
+
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = UserCreationForm
