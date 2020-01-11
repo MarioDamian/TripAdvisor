@@ -30,13 +30,57 @@ def index(request):
                    'cities_list': cities_list,
                    'countries_list': countries_list, 'filt1': filt1, 'filt2': filt2})
 
+
 class BusinessView(DetailView):
     template_name = 'business_profile.html'
     context_object_name = 'business'
 
+    def get_context_data(self, **kwargs):
+        data = super().get_context_data(**kwargs)
+        business = Business.objects.get(id=self.kwargs['pk'])
+        data['comments'] = business.comments.all()
+        reviews_list = business.reviews.all()
+        rate = 0
+        for review in reviews_list:
+            rate = rate + review.rating
+        try:
+            rate = float(rate / len(reviews_list))
+        except ZeroDivisionError:
+            print('You have 0 reviews!')
+        data['rate'] = rate
+        return data
+
     def get_object(self):
         business = Business.objects.get(id=self.kwargs['pk'])
         return business
+
+class CreateReviewView(CreateView):
+    model = Review
+    fields = ['rating']
+
+    def form_valid(self, form):
+        business = Business.objects.get(id=self.kwargs['pk'])
+        Review.objects.create(
+            created_by=self.request.user,
+            business=business,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("business_detail", kwargs={"pk": self.kwargs['pk']}))
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    fields = ['text']
+
+
+    def form_valid(self, form):
+        business = Business.objects.get(id=self.kwargs['pk'])
+        Comment.objects.create(
+            user=self.request.user,
+            business=business,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("business_detail",
+                                     kwargs={"pk": self.kwargs['pk']}))
 
 
 class RegisterView(CreateView):
@@ -47,7 +91,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         data = form.cleaned_data
         user = MyUser.objects.create_user(username=data['username'],
-                                          password=data['password'])
+                                          password=data['password1'])
         return redirect('home')
 
 
