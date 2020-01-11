@@ -19,6 +19,45 @@
                     <h4>Description</h4>
                     <span class="text-info">{{ business.description }}</span>
                 </div>
+                <div class="card card-footer">
+                    <form id="review_form" action="{% url 'review_create' business.id %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" value="0" name="rating" id="id_rating">
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star"></i>
+                    </form>
+                    <script>
+                        $(document).ready(function(){
+                            var input = $('#review_form').children('input')[1];
+                            var stars = $('#review_form').children('i');
+                            for(let i = 0; i < stars.length; i++){
+                                $(stars[i]).on("click",function(){
+                                let value = i + 1;
+                                input.value = value;
+                                 $("#review_form").submit();});
+                                  $(stars[i]).on("mouseover", function(){
+                                  console.log("works");
+                                    let index = i;
+                                    stars.toArray().slice(0,index + 1).forEach(function(el){
+                                        $(el).addClass('text-primary');
+                                    })
+                                    stars.toArray().slice(index + 1).forEach(function(el){
+                                        $(el).removeClass('text-primary');
+                                    })
+                                  });
+                            }
+                            $('#review_form').on("mouseout",function(){
+                            stars.toArray().forEach(function(el){
+                                $(el).removeClass('text-primary');
+                            })
+                            })
+                        })
+                    </script>
+                    <p>Rating: {{rate}}</p>
+                </div>
             </div>
         </div>
     </div>
@@ -65,47 +104,11 @@
                 </div>
             </div>
         </div>
+        {% endfor %}
     <div class="box"></div>
-        <form id="review_form" action="{% url 'review_create' business.id %}" method="POST">
-            {% csrf_token %}
-            <input type="hidden" value="0" name="rating" id="id_rating">
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-            <i class="fa fa-star"></i>
-        </form>
-        <script>
-            $(document).ready(function(){
-                var input = $('#review_form').children('input')[1];
-                var stars = $('#review_form').children('i');
-                for(let i = 0; i < stars.length; i++){
-                    $(stars[i]).on("click",function(){
-                    let value = i + 1;
-                    input.value = value;
-                     $("#review_form").submit();});
-                      $(stars[i]).on("mouseover", function(){
-                      console.log("works");
-                        let index = i;
-                        stars.toArray().slice(0,index + 1).forEach(function(el){
-                            $(el).addClass('text-primary');
-                        })
-                        stars.toArray().slice(index + 1).forEach(function(el){
-                            $(el).removeClass('text-primary');
-                        })
-                      });
-                }
-                $('#review_form').on("mouseout",function(){
-                stars.toArray().forEach(function(el){
-                    $(el).removeClass('text-primary');
-                })
-                })
-            })
-        </script>
-        <p>Rating: {{rate}}</p>
+
     <br/>
         <br/>
-    {% endfor %}
 </div>
 
 
