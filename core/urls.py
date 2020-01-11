@@ -5,11 +5,13 @@ from core.views import (
     CommentCreateView,
     RegisterView,
     LoginView,
-    LogoutView
+    LogoutView,
+    ReviewCreateView
 )
 
 urlpatterns = [
     path('', index, name='home'),
+    path('business/<int:pk>/review/create', ReviewCreateView.as_view(), name='review_create'),
     path('business/<int:pk>', BusinessView.as_view(), name='business_detail'),
     path('business/<int:pk>/comment/create', CommentCreateView.as_view(), name='comment_create'),
     path('register/', RegisterView.as_view(), name='register'),

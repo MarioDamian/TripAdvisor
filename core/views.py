@@ -54,18 +54,19 @@ class BusinessView(DetailView):
         business = Business.objects.get(id=self.kwargs['pk'])
         return business
 
-class CreateReviewView(CreateView):
+class ReviewCreateView(LoginRequiredMixin, CreateView):
     model = Review
     fields = ['rating']
 
     def form_valid(self, form):
         business = Business.objects.get(id=self.kwargs['pk'])
         Review.objects.create(
-            created_by=self.request.user,
+            user=self.request.user,
             business=business,
             **form.cleaned_data
         )
-        return redirect(reverse_lazy("business_detail", kwargs={"pk": self.kwargs['pk']}))
+        return redirect(reverse_lazy("business_detail",
+                                     kwargs={"pk": self.kwargs['pk']}))
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
