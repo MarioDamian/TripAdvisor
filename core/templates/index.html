@@ -5,13 +5,37 @@
 {% endblock %}
 
 {% block content %}
+
      <div class="row container">
+         <form action="#" method="GET">
+            <select name="countries" onchange="this.form.submit()">
+                <option value=""></option>
+                {% for country in countries_list %}
+                {% if country.pk == filt1 %}
+                <option value="{{country.pk}}" selected>{{country.name}}</option>
+                {% else %}
+                <option value="{{country.pk}}">{{country.name}}</option>
+                {% endif %}
+                {% endfor %}
+            </select>
+
+             <select name="cities" onchange="this.form.submit()">
+                 <option value=""></option>
+                 {% for city in cities_list %}
+                 {% if city.pk == filt2 %}
+                 <option value="{{city.pk}}" selected>{{city.name}}</option>
+                 {% else %}
+                 <option value="{{city.pk}}">{{city.name}}</option>
+                 {% endif %}
+                 {% endfor %}
+             </select>
+         </form>
     {% for business in business_list %}
       <div class="col-sm-6 p-3">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title">{{ business.text }}</h5>
-            <a href="{% url 'business_detail' business.id %}" class="btn btn-primary">View</a>
+            <h5 class="card-title">{{ business.name }} {{ business.city }}</h5>
+            {#<a href="{% url 'business_detail' business.id %}" class="btn btn-primary">View</a>#}
           </div>
         </div>
       </div>
