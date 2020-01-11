@@ -19,7 +19,6 @@ def index(request):
 
 
 
-
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = UserCreationForm
