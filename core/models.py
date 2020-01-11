@@ -8,6 +8,28 @@ class MyUser(User):
     pass
 
 
+class Country(models.Model):
+    name = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Countries"
+
+
+class City(models.Model):
+    name = models.CharField(max_length=1000)
+    population = models.PositiveIntegerField()
+    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='cities')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = "Cities"
+
+
 class Business(models.Model):
     city = models.ForeignKey(City, on_delete=models.CASCADE, related_name='businesses')
     image = models.ImageField(upload_to='images/business')
@@ -19,25 +41,7 @@ class Business(models.Model):
 class Review(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='reviews')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
-class Country(models.Model):
-    name = models.CharField(max_length=1000)
 
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Countries"
-
-class City(models.Model):
-    name = models.CharField(max_length=1000)
-    population = models.PositiveIntegerField()
-    country = models.ForeignKey(Country, on_delete=models.CASCADE, related_name='cities'
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = "Cities"
 
 class Comment(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='businesses')
