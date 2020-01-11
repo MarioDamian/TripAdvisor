@@ -18,6 +18,14 @@ def index(request):
     return render(request, 'index.html', {'business_list': business_list})
 
 
+class BusinessView(DetailView):
+    template_name = 'business_profile.html'
+    context_object_name = 'business'
+
+    def get_object(self):
+        business = Business.objects.get(id=self.kwargs['pk'])
+        return business
+
 
 class RegisterView(CreateView):
     template_name = 'register.html'
