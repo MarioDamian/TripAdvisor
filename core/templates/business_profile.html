@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+     {{  business.name  }}
+{% endblock %}
+
+{% block content %}
+<br/><br/>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-auto">
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{   business.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <img class="card-img" src="{{ business.image.url }}" alt="Business image" style="max-width: 500px;max-height: 500px;">
+                    <br><br>
+                    <h4>Description</h4>
+                    <span>{{ business.description }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <h4>Comments</h4>
+    </div>
+</div>
+
+{% endblock %}

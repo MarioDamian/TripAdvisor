@@ -30,6 +30,14 @@ def index(request):
                    'cities_list': cities_list,
                    'countries_list': countries_list, 'filt1': filt1, 'filt2': filt2})
 
+class BusinessView(DetailView):
+    template_name = 'business_profile.html'
+    context_object_name = 'business'
+
+    def get_object(self):
+        business = Business.objects.get(id=self.kwargs['pk'])
+        return business
+
 
 class RegisterView(CreateView):
     template_name = 'register.html'
