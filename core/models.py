@@ -45,6 +45,7 @@ class Review(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='reviews')
     rating = models.PositiveIntegerField()
 
+
 class Comment(models.Model):
     business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name='comments')
     text = models.CharField(max_length=1024)

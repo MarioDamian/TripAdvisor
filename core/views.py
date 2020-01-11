@@ -54,6 +54,7 @@ class BusinessView(DetailView):
         business = Business.objects.get(id=self.kwargs['pk'])
         return business
 
+
 class CreateReviewView(CreateView):
     model = Review
     fields = ['rating']
@@ -67,10 +68,10 @@ class CreateReviewView(CreateView):
         )
         return redirect(reverse_lazy("business_detail", kwargs={"pk": self.kwargs['pk']}))
 
+
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ['text']
-
 
     def form_valid(self, form):
         business = Business.objects.get(id=self.kwargs['pk'])
