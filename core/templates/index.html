@@ -33,11 +33,11 @@
     {% for business in business_list %}
       <div class="col-sm-4 p-3">
         <div class="card">
-            <a href="{% url 'business_view' business.id %}"><div class="card-header bg-success text-white">
+            <a href="{% url 'business_detail' business.id %}"><div class="card-header bg-success text-white">
                 {{  business.name }}
             </div></a>
             <div class="card-body">
-                <a href="{% url 'business_view' business.id %}"><img class="img-thumbnail" src="{{ business.image.url }}" alt="Business image"></img>   </a>
+                <a href="{% url 'business_detail' business.id %}"><img class="img-thumbnail" src="{{ business.image.url }}" alt="Business image"></img>   </a>
             </div>
             <div class="card-footer">
 

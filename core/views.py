@@ -39,14 +39,30 @@ class BusinessView(DetailView):
         data = super().get_context_data(**kwargs)
         business = Business.objects.get(id=self.kwargs['pk'])
         data['comments'] = business.comments.all()
-        print(data['comments'])
+        reviews_list = business.reviews.all()
+        rate = 0
+        for review in reviews_list:
+            rate = rate + review.rating
+        rate = float(rate / len(reviews_list))
+        data['rate'] = rate
         return data
-
 
     def get_object(self):
         business = Business.objects.get(id=self.kwargs['pk'])
         return business
 
+class CreateReviewView(CreateView):
+    model = Review
+    fields = ['rating']
+
+    def form_valid(self, form):
+        business = Business.objects.get(id=self.kwargs['pk'])
+        Review.objects.create(
+            created_by=self.request.user,
+            business=business,
+            **form.cleaned_data
+        )
+        return redirect(reverse_lazy("business_detail", kwargs={"pk": self.kwargs['pk']}))
 
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
