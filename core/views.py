@@ -42,7 +42,6 @@ class BusinessView(DetailView):
         print(data['comments'])
         return data
 
-
     def get_object(self):
         business = Business.objects.get(id=self.kwargs['pk'])
         return business
@@ -51,7 +50,6 @@ class BusinessView(DetailView):
 class CommentCreateView(LoginRequiredMixin, CreateView):
     model = Comment
     fields = ['text']
-
 
     def form_valid(self, form):
         business = Business.objects.get(id=self.kwargs['pk'])
@@ -64,6 +62,15 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
                                      kwargs={"pk": self.kwargs['pk']}))
 
 
+class CommentDeleteView(LoginRequiredMixin, DeleteView):
+    model = Comment
+    template_name = 'confirm.html'
+
+    def get_success_url(self):
+        return reverse_lazy("business_detail",
+                                     kwargs={"pk": self.kwargs['pk']})
+
+
 class RegisterView(CreateView):
     template_name = 'register.html'
     form_class = UserCreationForm
@@ -72,7 +79,7 @@ class RegisterView(CreateView):
     def form_valid(self, form):
         data = form.cleaned_data
         user = MyUser.objects.create_user(username=data['username'],
-                                          password=data['password'])
+                                          password=data['password1'])
         return redirect('home')
 
 
